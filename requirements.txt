@@ -1,125 +1,104 @@
-# This file may be used to create an environment using:
-# $ conda create --name <env> --file <this file>
-# platform: win-64
-absl-py==1.3.0
-anyio=3.6.2=pypi_0
-asttokens=2.0.8=pypi_0
-astunparse=1.6.3=pypi_0
-backcall=0.2.0=pypi_0
-bbox-visualizer=0.1.0=pypi_0
-ca-certificates=2022.07.19=haa95532_0
-cachetools=5.2.0=pypi_0
-certifi=2022.6.15=py38haa95532_0
-charset-normalizer=2.1.1=pypi_0
-click=8.1.3=pypi_0
-colorama=0.4.5=pypi_0
-cvlib=0.2.7=pypi_0
-cycler=0.11.0=pypi_0
-decorator=5.1.1=pypi_0
-executing=0.10.0=pypi_0
-fastapi=0.94.1=pypi_0
-flatbuffers=22.9.24=pypi_0
-fonttools=4.36.0=pypi_0
-gast=0.4.0=pypi_0
-gitdb=4.0.10=pypi_0
-gitpython=3.1.29=pypi_0
-google-auth=2.13.0=pypi_0
-google-auth-oauthlib=0.4.6=pypi_0
-google-pasta=0.2.0=pypi_0
-grpcio=1.50.0=pypi_0
-h11=0.14.0=pypi_0
-h5py=3.7.0=pypi_0
-httptools=0.5.0=pypi_0
-idna=3.3=pypi_0
-imageio=2.21.1=pypi_0
-importlib-metadata=5.0.0=pypi_0
-imutils=0.5.4=pypi_0
-ipython=8.4.0=pypi_0
-jedi=0.18.1=pypi_0
-joblib=1.2.0=pypi_0
-keras=2.10.0=pypi_0
-keras-preprocessing=1.1.2=pypi_0
-kiwisolver=1.4.4=pypi_0
-levenshtein=0.20.9=pypi_0
-libclang=14.0.6=pypi_0
-markdown=3.4.1=pypi_0
-markupsafe=2.1.1=pypi_0
-matplotlib=3.5.3=pypi_0
-matplotlib-inline=0.1.6=pypi_0
-mysql-connector-python=8.0.31=pypi_0
-networkx=2.8.6=pypi_0
-numpy=1.23.2=pypi_0
-oauthlib=3.2.2=pypi_0
-opencv-contrib-python=4.6.0.66=pypi_0
-opencv-python=4.6.0.66=pypi_0
-openssl=1.1.1q=h2bbff1b_0
-opt-einsum=3.3.0=pypi_0
-packaging=21.3=pypi_0
-pandas=1.4.3=pypi_0
-parso=0.8.3=pypi_0
-pickleshare=0.7.5=pypi_0
-pillow=9.2.0=pypi_0
-pip=22.1.2=py38haa95532_0
-progressbar=2.5=pypi_0
-prompt-toolkit=3.0.30=pypi_0
-protobuf=3.19.6=pypi_0
-psutil=5.9.1=pypi_0
-pure-eval=0.2.2=pypi_0
-pyasn1=0.4.8=pypi_0
-pyasn1-modules=0.2.8=pypi_0
-pydantic=1.10.6=pypi_0
-pygments=2.13.0=pypi_0
-pyparsing=3.0.9=pypi_0
-pytesseract=0.3.10=pypi_0
-pythainlp=3.1.0=pypi_0
-python=3.8.13=h6244533_0
-python-bidi=0.4.2=pypi_0
-python-dateutil=2.8.2=pypi_0
-python-dotenv=1.0.0=pypi_0
-python-multipart=0.0.6=pypi_0
-pytz=2022.2.1=pypi_0
-pywavelets=1.3.0=pypi_0
-pyyaml=6.0=pypi_0
-rapidfuzz=2.13.7=pypi_0
-requests=2.28.1=pypi_0
-requests-oauthlib=1.3.1=pypi_0
-rsa=4.9=pypi_0
-scikit-image=0.19.3=pypi_0
-scikit-learn=1.2.0=pypi_0
-scipy=1.9.0=pypi_0
-seaborn=0.11.2=pypi_0
-setuptools=63.4.1=py38haa95532_0
-six=1.16.0=pypi_0
-smmap=5.0.0=pypi_0
-sniffio=1.3.0=pypi_0
-sqlite=3.39.2=h2bbff1b_0
-stack-data=0.4.0=pypi_0
-starlette=0.26.1=pypi_0
-tensorboard=2.10.1=pypi_0
-tensorboard-data-server=0.6.1=pypi_0
-tensorboard-plugin-wit=1.8.1=pypi_0
-tensorflow=2.10.0=pypi_0
-tensorflow-estimator=2.10.0=pypi_0
-tensorflow-io-gcs-filesystem=0.27.0=pypi_0
-termcolor=2.0.1=pypi_0
-thop=0.1.1-2209072238=pypi_0
-threadpoolctl=3.1.0=pypi_0
-tifffile=2022.8.12=pypi_0
-torch=1.12.1+cu116=pypi_0
-torchaudio=0.12.1+cu116=pypi_0
-torchvision=0.13.1+cu116=pypi_0
-tqdm=4.64.0=pypi_0
-traitlets=5.3.0=pypi_0
-typing-extensions=4.3.0=pypi_0
-urllib3=1.26.12=pypi_0
-uvicorn=0.21.1=pypi_0
-vc=14.2=h21ff451_1
-vs2015_runtime=14.27.29016=h5e58377_2
-watchfiles=0.18.1=pypi_0
-wcwidth=0.2.5=pypi_0
-websockets=10.4=pypi_0
-werkzeug=2.2.2=pypi_0
-wheel=0.37.1=pyhd3eb1b0_0
-wincertstore=0.2=py38haa95532_2
-wrapt=1.14.1=pypi_0
-zipp=3.10.0=pypi_0
+absl-py==1.2.0
+asttokens==2.0.8
+astunparse==1.6.3
+backcall==0.2.0
+bbox-visualizer==0.1.0
+brotlipy==0.7.0
+cachetools==5.2.0
+certifi==2022.6.15
+cffi @ file:///C:/ci_310/cffi_1642682485096/work
+charset-normalizer @ file:///tmp/build/80754af9/charset-normalizer_1630003229654/work
+colorama @ file:///tmp/build/80754af9/colorama_1607707115595/work
+conda==4.13.0
+conda-content-trust @ file:///tmp/build/80754af9/conda-content-trust_1617045594566/work
+conda-package-handling @ file:///C:/ci/conda-package-handling_1649106011304/work
+cryptography @ file:///C:/ci/cryptography_1639414720302/work
+cycler==0.11.0
+decorator==5.1.1
+easyocr==1.5.0
+executing==0.10.0
+flatbuffers==1.12
+fonttools==4.35.0
+gast==0.4.0
+google-auth==2.10.0
+google-auth-oauthlib==0.4.6
+google-pasta==0.2.0
+grpcio==1.47.0
+h5py==3.7.0
+idna @ file:///tmp/build/80754af9/idna_1637925883363/work
+imageio==2.21.1
+importlib-metadata==4.12.0
+imutils==0.5.4
+ipython==8.4.0
+jedi==0.18.1
+keras==2.9.0
+Keras-Preprocessing==1.1.2
+kiwisolver==1.4.4
+Levenshtein==0.20.9
+libclang==14.0.6
+Markdown==3.4.1
+MarkupSafe==2.1.1
+matplotlib==3.5.3
+matplotlib-inline==0.1.3
+menuinst @ file:///C:/ci/menuinst_1631733438520/work
+networkx==2.8.5
+numpy==1.23.2
+oauthlib==3.2.0
+opencv-python==4.6.0.66
+opencv-python-headless==4.5.4.60
+opt-einsum==3.3.0
+packaging @ file:///home/conda/feedstock_root/build_artifacts/packaging_1637239678211/work
+pandas==1.4.3
+parso==0.8.3
+pickleshare==0.7.5
+Pillow @ file:///D:/bld/pillow_1660386017005/work
+prompt-toolkit==3.0.30
+protobuf==3.19.4
+psutil==5.9.1
+pure-eval==0.2.2
+pyasn1==0.4.8
+pyasn1-modules==0.2.8
+pycosat==0.6.3
+pycparser @ file:///tmp/build/80754af9/pycparser_1636541352034/work
+Pygments==2.13.0
+pyOpenSSL @ file:///opt/conda/conda-bld/pyopenssl_1643788558760/work
+pyparsing @ file:///home/conda/feedstock_root/build_artifacts/pyparsing_1652235407899/work
+PySocks @ file:///C:/ci/pysocks_1605307512533/work
+pytesseract @ file:///home/conda/feedstock_root/build_artifacts/pytesseract_1647306555263/work
+python-bidi==0.4.2
+python-dateutil==2.8.2
+pytz==2022.2.1
+PyWavelets==1.3.0
+pywin32==302
+PyYAML==6.0
+rapidfuzz==2.13.7
+requests @ file:///opt/conda/conda-bld/requests_1641824580448/work
+requests-oauthlib==1.3.1
+rsa==4.9
+ruamel-yaml-conda @ file:///C:/ci/ruamel_yaml_1616016898638/work
+scikit-image==0.19.3
+scipy==1.9.0
+seaborn==0.11.2
+six @ file:///tmp/build/80754af9/six_1644875935023/work
+stack-data==0.4.0
+tensorboard==2.9.1
+tensorboard-data-server==0.6.1
+tensorboard-plugin-wit==1.8.1
+tensorflow==2.9.1
+tensorflow-estimator==2.9.0
+tensorflow-io-gcs-filesystem==0.26.0
+termcolor==1.1.0
+thop==0.1.1.post2207130030
+tifffile==2022.8.12
+torch==1.12.1
+torchvision==0.13.1
+tqdm==4.64.0
+traitlets==5.3.0
+typing_extensions==4.3.0
+urllib3 @ file:///opt/conda/conda-bld/urllib3_1643638302206/work
+wcwidth==0.2.5
+Werkzeug==2.2.2
+win-inet-pton @ file:///C:/ci/win_inet_pton_1605306162074/work
+wincertstore==0.2
+wrapt==1.14.1
+zipp==3.8.1
