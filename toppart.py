@@ -65,7 +65,7 @@ def top_part(img):
 
         print(text)
         
-        text = text.replace("\n", "")
+        text = text.replace("\n", "").replace("\f", "")
         number.append(text)
         lens = len(number)
         ress=""
@@ -73,4 +73,4 @@ def top_part(img):
         for i in range(lens):
             ress = ress + number[i]
 
-    return str(ress)
+    return str(ress.encode("utf-8"))
