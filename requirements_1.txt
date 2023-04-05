@@ -1,0 +1,11 @@
+fastapi==0.95.0
+imutils==0.5.4
+matplotlib==3.5.3
+numpy==1.23.2
+opencv_python==4.6.0.66
+Pillow==9.5.0
+pytesseract==0.3.10
+pythainlp==3.1.0
+python_Levenshtein==0.20.9
+starlette==0.26.1
+torch==1.12.1+cu116
