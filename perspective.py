@@ -1,85 +1,65 @@
 import cv2
 import numpy as np
-from matplotlib import pyplot as plt
 
 def order_points(pts):
-    # Step 1: Find centre of object
-    center = np.mean(pts)
+    rect = np.zeros((4, 2), dtype="float32")
 
-    # Step 2: Move coordinate system to centre of object
-    shifted = pts - center
+    s = pts.sum(axis=1)
+    rect[0] = pts[np.argmin(s)]
+    rect[2] = pts[np.argmax(s)]
 
-    # Step #3: Find angles subtended from centroid to each corner point
-    theta = np.arctan2(shifted[:, 0], shifted[:, 1])
+    diff = np.diff(pts, axis=1)
+    rect[1] = pts[np.argmin(diff)]
+    rect[3] = pts[np.argmax(diff)]
 
-    # Step #4: Return vertices ordered by theta
-    ind = np.argsort(theta)
-    return pts[ind]
+    return rect
 
-def getContours(img, orig):  # Change - pass the original image too
-    biggest = np.array([])
-    maxArea = 0
-    imgContour = orig.copy()  # Make a copy of the original image to return
-    contours, hierarchy = cv2.findContours(img, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_NONE)
-    index = None
-    for i, cnt in enumerate(contours):  # Change - also provide index
-        area = cv2.contourArea(cnt)
-        if area > 500:
-            peri = cv2.arcLength(cnt, True)
-            approx = cv2.approxPolyDP(cnt,0.02*peri, True)
-            if area > maxArea and len(approx) == 4:
-                biggest = approx
-                maxArea = area
-                index = i  # Also save index to contour
+def preprocess_image(image):
+    gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
+    blurred = cv2.GaussianBlur(gray, (5, 5), 0)
+    edged = cv2.Canny(blurred, 100, 200)
+    return edged
 
-    warped = None  # Stores the warped license plate image
-    if index is not None: # Draw the biggest contour on the image
-        cv2.drawContours(imgContour, contours, index, (255, 0, 0), 3)
+def find_largest_rectangle_contour(contours):
+    largest_area = 0
+    largest_rect = None
 
-        src = np.squeeze(biggest).astype(np.float32) # Source points
-        height = image.shape[0]
-        width = image.shape[1]
-        # Destination points
-        dst = np.float32([[0, 0], [0, height - 1], [width - 1, 0], [width - 1, height - 1]])
+    for cnt in contours:
+        rect = cv2.minAreaRect(cnt)
+        box = cv2.boxPoints(rect)
+        box = np.int0(box)
 
-        # Order the points correctly
-        biggest = order_points(src)
-        dst = order_points(dst)
+        area = cv2.contourArea(box)
+        if area > largest_area:
+            largest_area = area
+            largest_rect = box
 
-        # Get the perspective transform
-        M = cv2.getPerspectiveTransform(src, dst)
+    return largest_rect
 
-        # Warp the image
-        img_shape = (width, height)
-        warped = cv2.warpPerspective(orig, M, img_shape, flags=cv2.INTER_LINEAR)
+def perspective(image):
+    preprocessed_image = preprocess_image(image)
 
-    return biggest, imgContour, warped  # Change - also return drawn image
+    contours, _ = cv2.findContours(preprocessed_image, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
+    largest_rect = find_largest_rectangle_contour(contours)
 
-kernel = np.ones((3,3))
-image = cv2.imread('test/car3.jpg')
+    src_points = order_points(largest_rect).astype("float32")
 
-imgGray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
-imgBlur = cv2.GaussianBlur(imgGray,(5,5),1)
-imgCanny = cv2.Canny(imgBlur,150,200)
-imgDial = cv2.dilate(imgCanny,kernel,iterations=2)
-imgThres = cv2.erode(imgDial,kernel,iterations=2)
-biggest, imgContour, warped = getContours(imgThres, image)  # Change
+    output_width = 200
+    output_height = 40
 
-titles = ['Original', 'Blur', 'Canny', 'Dilate', 'Threshold', 'Contours', 'Warped']  # Change - also show warped image
-images = [image[...,::-1],  imgBlur, imgCanny, imgDial, imgThres, imgContour, warped]  # Change
+    dst_points = np.float32([
+    [0, 0],
+    [output_width, 0],
+    [output_width, output_height],
+    [0, output_height]
+    ])
 
-# Change - Also show contour drawn image + warped image
-for i in range(5):
-    plt.subplot(3, 3, i+1)
-    plt.imshow(images[i], cmap='gray')
-    plt.title(titles[i])
+    matrix = cv2.getPerspectiveTransform(src_points, dst_points)
+    result = cv2.warpPerspective(image, matrix, (output_width, output_height))
 
-plt.subplot(3, 3, 6)
-plt.imshow(images[-2])
-plt.title(titles[-2])
+    cv2.imshow('output_image.jpg', result)
+    cv2.waitKey(0)
 
-plt.subplot(3, 3, 8)
-plt.imshow(images[-1])
-plt.title(titles[-1])
+    return result
 
-plt.show()
+

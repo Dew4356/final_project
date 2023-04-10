@@ -35,8 +35,22 @@ model.max_det = 1
 # Model car
 model2 = torch.hub.load('ultralytics/yolov5', 'yolov5m')
 model2.classes = [2]
-""" model2.max_det = 1 """
-    
+model2.max_det = 1
+
+def resize_img(img):
+    target_width = 400
+    aspect_ratio = img.shape[1] / img.shape[0]
+    target_height = int(target_width / aspect_ratio)
+    resized = cv2.resize(img, (target_width, target_height), interpolation = cv2.INTER_CUBIC)
+
+    return resized
+
+def img_to_base64(img):
+    img_buffer = cv2.imencode('.jpg', img)[1]
+    img_base64 = base64.b64encode(img_buffer.tobytes()).decode('utf-8')
+
+    return f'data:image/jpg;base64,{img_base64}'
+
 @app.post("/lp-detection/")
 async def upload_image(request: Request, image: UploadFile = File()):
     contents = await image.read()
@@ -57,17 +71,13 @@ async def upload_image(request: Request, image: UploadFile = File()):
 
     if(result):
         image_new = img[y1: y2, x1: x2]
-        top_resize = cv2.resize(image_new, None, fx = 2, fy = 2, interpolation = cv2.INTER_CUBIC)
-        """ scale_percent = 60 # percent of original size
-        width = int(image_new.shape[1] * scale_percent / 100)
-        height = int(image_new.shape[0] * scale_percent / 100)
-        dim = (width, height)
-        # resize image
-        resized = cv2.resize(image_new, dim, interpolation = cv2.INTER_CUBIC) """
+        
+        top_resize = resize_img(image_new)
+        
         top = top_part(top_resize)
-        btm_resize = cv2.resize(image_new, None, fx = 1, fy = 1, interpolation = cv2.INTER_CUBIC)
-        btm = bottom_part(btm_resize)
+        btm = bottom_part(top_resize)
         province = getProvince(btm)
+        
         input_image_data_url = img_to_base64(image_new)
     else:
         img_resize = cv2.resize(img, None, fx = 1, fy = 1, interpolation = cv2.INTER_CUBIC)
@@ -105,10 +115,3 @@ async def upload_image(request: Request, image: UploadFile = File()):
     input_image_data_url = img_to_base64(resized)
 
     return {'bbox': result,'detect_img': input_image_data_url, 'color': color}
-
-def img_to_base64(img):
-    img_buffer = cv2.imencode('.jpg', img)[1]
-    img_base64 = base64.b64encode(img_buffer.tobytes()).decode('utf-8')
-
-    return f'data:image/jpg;base64,{img_base64}'
-

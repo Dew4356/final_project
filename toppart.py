@@ -1,8 +1,7 @@
 import numpy as np
-import io
-import json
 import cv2
 import pytesseract
+import re
 
 def top_part(img):
     # convert the image to grayscale
@@ -22,13 +21,16 @@ def top_part(img):
     
     dilation = cv2.dilate(thresh, rect_kern, iterations = 1)
 
+    """ width = dilation.shape[1]
+    split_point = int(width * 0.4)  # Adjust the split point based on your license plate format
+    first_part = dilation[:, :split_point]
+    last_4_digits = dilation[:, split_point:] """
+
     try:
         contours, hierarchy = cv2.findContours(dilation, cv2.RETR_TREE, cv2.CHAIN_APPROX_SIMPLE)
     except:
         ret_img, contours, hierarchy = cv2.findContours(dilation, cv2.RETR_TREE, cv2.CHAIN_APPROX_SIMPLE)
     sorted_contours = sorted(contours, key=lambda ctr: cv2.boundingRect(ctr)[0])
-
-    # return the data dictionary as a JSON response
 
     number = []
 
@@ -39,38 +41,44 @@ def top_part(img):
         # if height of box is not a quarter of total height then skip
         if height / float(h) > 6: continue
         ratio = h / float(w)
+
         # if height to width ratio is less than 1.25 skip
         if ratio < 1.25: continue
         area = h * w
+
         # if width is not more than 25 pixels skip
         if width / float(w) > 25: continue
+
         # if area is less than 100 pixels skip
         if area < 100: continue
+
         # draw the rectangle
         rect = cv2.rectangle(img, (x,y), (x+w, y+h), (0,0,255),0)
+        
         roi = thresh[y-5:y+h+5, x-5:x+w+5]
         roi = cv2.bitwise_not(roi)
         roi = cv2.medianBlur(roi, 3)
 
-        config="""-l tha --psm 6 -c tessedit_char_blacklist=?!@#$%^&-_+=}{][)(\/><|:;,~*`.\\"\\' 
-                \u0e30\u0e31\u0e32\u0e33\u0e34\u0e35\u0e36\u0e37\u0e38\u0e39\u0e3a\u0e3f
-                \u0e40\u0e41\u0e42\u0e43\u0e44\u0e45\u0e46\u0e47\u0e48\u0e49
-                \u0e4a\u0e4b\u0e4c\u0e4d\u0e4e\u0e4f 
-                \u0e50\u0e51\u0e52\u0e53\u0e54\u0e55\u0e56\u0e57\u0e58\u0e59\u0e5a\u0e5b""" #  " , '
+        special_chars = "!#$%&()*+,-./:;<=>?@[\\]^_`{|}~๐๑๒๓๔๕๖๗๘๙฿\"\"\'\'" # " ,, '
+        config = f"-l tha --psm 6 -c tessedit_char_blacklist={special_chars}"
         
-        user_patterns_file = 'recognized.txt'
-        custom_config = f'-c user_patterns_file={user_patterns_file} --psm 6 -l tha'
-        
-        text = pytesseract.image_to_string(roi, config=config)
+        text = pytesseract.image_to_string(roi, config=config)        
+        text = text.replace("\n", "")
+
+        thai_vowels_pattern = r"[\u0E30-\u0E3A\u0E40-\u0E4f]"
+        text = re.sub(thai_vowels_pattern, '', text).replace(" ", "")
+
+        text = re.sub(r'(?<=\D)(\D{1,4})$', '', text)
 
         print(text)
         
-        text = text.replace("\n", "")
         number.append(text)
         lens = len(number)
         ress=""
 
         for i in range(lens):
             ress = ress + number[i]
+
+    print("lp_number : " + ress)
 
     return str(ress).replace("\f", "")
